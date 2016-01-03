@@ -97,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
             // Показываем кнопку при удачном разборе qr-кода
             buttonToClipboard.setVisibility(text != null ? View.VISIBLE : View.GONE);
 
-            text = text != null ? text : "ERROR: Не получилось разобрать QR code";
+            text = text != null ? text : "ERROR: Failed to read the QR code";
             textView.setText(text);
         }
     }
