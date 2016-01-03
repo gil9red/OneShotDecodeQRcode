@@ -2,14 +2,12 @@ package com.example.ipetrash.oneshotdecodeqrcode;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.zxing.BinaryBitmap;
@@ -80,13 +78,8 @@ public class MainActivity extends ActionBarActivity {
         Log.d(TAG, "pixels=" + pixels);
 
         RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
-        Log.d(TAG, "source=" + source);
-
         BinaryBitmap bBitmap = new BinaryBitmap(new HybridBinarizer(source));
-        Log.d(TAG, "bBitmap=" + bBitmap);
-
         MultiFormatReader reader = new MultiFormatReader();
-        Log.d(TAG, "reader=" + reader);
 
         try {
             String result = reader.decode(bBitmap).getText();
@@ -97,8 +90,7 @@ public class MainActivity extends ActionBarActivity {
         } catch (NotFoundException e) {
             Log.e(TAG, "decode exception", e);
             return null;
-        }
-        finally {
+        } finally {
             Log.d(TAG, "decode end");
         }
     }
