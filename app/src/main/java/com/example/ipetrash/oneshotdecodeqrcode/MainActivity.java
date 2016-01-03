@@ -1,5 +1,6 @@
 package com.example.ipetrash.oneshotdecodeqrcode;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.text.ClipboardManager;
+import android.widget.Toast;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
@@ -18,15 +21,21 @@ import com.google.zxing.common.HybridBinarizer;
 
 
 public class MainActivity extends ActionBarActivity {
-    private static final int CAMERA_REQUEST = 1888;
     private ImageView imageView;
     private TextView textView;
+    private Button buttonToClipboard;
+
+    private ClipboardManager clipboard;
+
+    private static final int CAMERA_REQUEST = 1888;
     private String TAG = "com.ipetrash";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
         imageView = (ImageView) findViewById(R.id.imageView);
         textView = (TextView) findViewById(R.id.textView);
@@ -44,6 +53,19 @@ public class MainActivity extends ActionBarActivity {
                 }
         );
 
+        buttonToClipboard = (Button) findViewById(R.id.buttonToClipboard);
+        buttonToClipboard.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "To Clipboard");
+
+                        clipboard.setText(textView.getText());
+                        showMessage("Text successfully saved to the clipboard!");
+                    }
+                }
+        );
+
         Button buttonQuit = (Button) findViewById(R.id.buttonQuit);
         buttonQuit.setOnClickListener(
                 new View.OnClickListener() {
@@ -56,6 +78,14 @@ public class MainActivity extends ActionBarActivity {
         );
     }
 
+    private void showMessage(CharSequence text) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -63,6 +93,9 @@ public class MainActivity extends ActionBarActivity {
 
             String text = decode(photo);
             Log.d(TAG, text != null ? String.format("decode text = '%s'", text) : "text is null");
+
+            // Показываем кнопку при удачном разборе qr-кода
+            buttonToClipboard.setVisibility(text != null ? View.VISIBLE : View.GONE);
 
             text = text != null ? text : "ERROR: Не получилось разобрать QR code";
             textView.setText(text);
