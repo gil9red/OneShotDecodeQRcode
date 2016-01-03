@@ -39,18 +39,17 @@
             android:layout_height="wrap_content"
             android:text="Decode QR code"
             android:id="@+id/buttonPhoto"
-            android:onClick="doDecode"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/buttonQuit"
             android:layout_alignEnd="@+id/buttonQuit"
-            android:layout_weight="1.00" />
+            android:layout_weight="1.00"
+            android:nestedScrollingEnabled="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quit"
             android:id="@+id/buttonQuit"
-            android:onClick="quit"
             android:layout_alignParentBottom="true" />
 
     </LinearLayout>
