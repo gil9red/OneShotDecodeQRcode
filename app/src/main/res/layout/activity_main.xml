@@ -22,7 +22,8 @@
         android:id="@+id/textView"
         android:layout_above="@+id/linearLayout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:autoLink="web" />
 
     <LinearLayout
         android:orientation="horizontal"
